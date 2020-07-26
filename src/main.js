@@ -5,6 +5,7 @@ import store from './store'
 import Element from 'element-ui'
 import "element-ui/lib/theme-chalk/index.css"
 import axios from 'axios'
+import './axios.js' // 请求拦截
 
 Vue.prototype.$axios = axios //
 
