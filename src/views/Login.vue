@@ -3,22 +3,20 @@
         <el-container>
           <el-header>
             <router-link to="/blogs">
-            <img src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png"
-                              style="height: 60%; margin-top: 10px;">
+            <img src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png" style="height: 60%; margin-top: 10px;">
             </router-link>
           </el-header>
           <el-main>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
-                                      class="demo-ruleForm">
-              <el-form-item label="用户名" prop="username">
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
+              <el-form-item label="Username" prop="username">
                 <el-input type="text" maxlength="12" v-model="ruleForm.username"></el-input>
               </el-form-item>
-              <el-form-item label="密码" prop="password">
+              <el-form-item label="Password" prop="password">
                 <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')">Sign in</el-button>
+                <el-button @click="resetForm('ruleForm')">Reset</el-button>
               </el-form-item>
             </el-form>
           </el-main>
@@ -31,7 +29,7 @@
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('请输入密码'));
+                    callback(new Error('Please input the password!'));
                 } else {
                     callback();
                 }
@@ -46,8 +44,8 @@
                         {validator: validatePass, trigger: 'blur'}
                     ],
                     username: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur'}
+                        {required: true, message: 'Please input the username!', trigger: 'blur'},
+                        {min: 3, max: 12, message: 'Length must be between 3 and 12!', trigger: 'blur'}
                     ]
                 }
             };
@@ -58,10 +56,11 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         // 提交逻辑
-                        this.$axios.post('http://localhost:8082/login', this.ruleForm).then((res)=>{
+                        this.$axios.post('/login', this.ruleForm).then((res)=>{
                             const token = res.headers['authorization']
+                            const userInfo = res.data.data
                             _this.$store.commit('SET_TOKEN', token)
-                            _this.$store.commit('SET_USERINFO', res.data.data)
+                            _this.$store.commit('SET_USERINFO', userInfo)
                             _this.$router.push("/blogs")
                         })
                     } else {
@@ -83,3 +82,43 @@
         }
     }
 </script>
+<style>
+    .demo-ruleForm{
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .el-header, .el-footer {
+        background-color: #B3C0D1;
+        color: #333;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        background-color: #D3DCE6;
+        color: #333;
+        text-align: center;
+        line-height: 200px;
+    }
+
+    .el-main {
+        background-color: #E9EEF3;
+        color: #333;
+        text-align: center;
+        line-height: 160px;
+    }
+
+    body > .el-container {
+        margin-bottom: 40px;
+    }
+
+    .el-container:nth-child(5) .el-aside,
+    .el-container:nth-child(6) .el-aside {
+        line-height: 260px;
+    }
+
+    .el-container:nth-child(7) .el-aside {
+        line-height: 320px;
+    }
+</style>

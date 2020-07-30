@@ -3,8 +3,11 @@
 </template>
 
 <script>
+    import Header from "../components/Header";
+
     export default {
-        name: "BlogDetail"
+        name: "BlogDetail",
+        components: {Header}
     }
 </script>
 
