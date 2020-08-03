@@ -39,6 +39,7 @@
         methods: {
             logout() {
                 const _this = this
+                console.log(localStorage.getItem("token"))
                 this.$axios.get('/logout', {
                     headers: {
                         "Authorization": localStorage.getItem("token")
@@ -46,7 +47,7 @@
                 }).then((res) => {
                     _this.$store.commit('REMOVE_INFO')
                     _this.$router.push('/login')
-                });
+                })
             }
         },
         created() {
