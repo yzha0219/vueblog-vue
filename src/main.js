@@ -6,12 +6,15 @@ import Element from 'element-ui'
 import "element-ui/lib/theme-chalk/index.css"
 import axios from 'axios'
 import './axios.js' // 请求拦截
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 Vue.prototype.$axios = axios //
 
 Vue.config.productionTip = false
 
 Vue.use(Element)
+Vue.use(mavonEditor)
 
 new Vue({
   router,
