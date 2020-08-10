@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import BlogDetail from '../views/BlogDetail.vue'
 import BlogEdit from '../views/BlogEdit.vue'
+import SignUp from "../views/SignUp";
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,11 @@ const routes = [
       requireAuth: true
     },
     component: BlogEdit
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp
   }
 ];
 const router = new VueRouter({

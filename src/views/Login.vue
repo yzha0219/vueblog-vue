@@ -2,9 +2,7 @@
       <div>
         <el-container>
           <el-header>
-            <router-link to="/blogs">
-            <img src="https://www.markerhub.com/dist/images/logo/markerhub-logo.png" style="height: 60%; margin-top: 10px;">
-            </router-link>
+            <LoginHeader></LoginHeader>
           </el-header>
           <el-main>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
@@ -16,6 +14,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">Sign in</el-button>
+                <el-button type="primary" @click="$router.push('/signup')">Sign up</el-button>
                 <el-button @click="resetForm('ruleForm')">Reset</el-button>
               </el-form-item>
             </el-form>
@@ -24,8 +23,11 @@
       </div>
 </template>
 <script>
+    import LoginHeader from "../components/LoginHeader";
+
     export default {
         name: 'Login',
+        components: {LoginHeader},
         data() {
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
