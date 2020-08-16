@@ -4,22 +4,22 @@
             <LoginHeader></LoginHeader>
         </el-header>
         <el-main>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form :model="signUpForm" status-icon :rules="rules" ref="signUpForm" label-width="120px" class="demo-ruleForm">
                 <el-form-item label="Username" prop="username">
-                    <el-input v-model="ruleForm.username"></el-input>
+                    <el-input v-model="signUpForm.username"></el-input>
                 </el-form-item>
                 <el-form-item label="Password" prop="password">
-                    <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+                    <el-input type="password" v-model="signUpForm.password" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Check Password" prop="checkPass">
-                    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                    <el-input type="password" v-model="signUpForm.checkPass" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Email" prop="email">
-                    <el-input type="email" v-model="ruleForm.email"></el-input>
+                    <el-input type="email" v-model="signUpForm.email"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('ruleForm')">Sign Up</el-button>
-                    <el-button @click="resetForm('ruleForm')">Reset</el-button>
+                    <el-button type="primary" @click="submitForm('signUpForm')">Sign Up</el-button>
+                    <el-button @click="resetForm('signUpForm')">Reset</el-button>
                 </el-form-item>
             </el-form>
         </el-main>
@@ -28,6 +28,7 @@
 
 <script>
     import LoginHeader from "../components/LoginHeader";
+    import md5 from 'js-md5';
 
     export default {
         name: "SignUp",
@@ -35,7 +36,7 @@
 
         data(){
             var checkUsername = (rule, value, callback) => {
-                this.$axios.get('/user/getUserByUserName/' + this.ruleForm.username).then((res) => {
+                this.$axios.get('/user/getUserByUserName/' + this.signUpForm.username).then((res) => {
                     let existed = res.data.data;
                     if(existed === true) {
                         callback(new Error('The username is already used!'));
@@ -49,8 +50,8 @@
                 if (value === '') {
                     callback();
                 } else {
-                    if (this.ruleForm.checkPass !== '') {
-                        this.$refs.ruleForm.validateField('checkPass');
+                    if (this.signUpForm.checkPass !== '') {
+                        this.$refs.signUpForm.validateField('checkPass');
                     }
                     callback();
                 }
@@ -58,14 +59,14 @@
             var validatePass2 = (rule, value, callback) => {
                 if (value === '') {
                     callback();
-                } else if (value !== this.ruleForm.password) {
+                } else if (value !== this.signUpForm.password) {
                     callback(new Error('The passwords are different!'));
                 } else {
                     callback();
                 }
             };
             return {
-                ruleForm: {
+                signUpForm: {
                     username:'',
                     password:'',
                     checkPass:'',
@@ -73,8 +74,8 @@
                 },
                 rules:{
                     username: [
-                        { validator: checkUsername, trigger: 'blur'},
                         { required: true, message: "Please input username!", trigger: 'blur' },
+                        { validator: checkUsername, trigger: 'blur'},
                         { min: 3, max: 12, message: 'Length must be between 3 and 12!', trigger: 'blur'}
                     ],
                     password: [
@@ -95,7 +96,20 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        let user = {
+                            "username":this.signUpForm.username,
+                            "password":md5(this.signUpForm.password),
+                            "email":this.signUpForm.email
+                        };
+                        this.$axios.post('/user/save', user)
+                            .then((res) => {
+                                _this.$alert('Sign up Success!', 'Hints', {
+                                    confirmButtonText: 'OK',
+                                    callback: action => {
+                                        _this.$router.push("/blogs")
+                                    }
+                                })
+                            });
                     } else {
                         console.log('error submit!!');
                         return false;
