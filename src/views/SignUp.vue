@@ -65,6 +65,14 @@
                     callback();
                 }
             };
+            var checkEmail = (rule, value, callback) => {
+              const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+              if(regEmail.test(this.ruleForm.email)) {
+                callback();
+              } else {
+                callback(new Error('The syntax of email is invalid!'));
+              }
+            }
             return {
                 signUpForm: {
                     username:'',
@@ -87,6 +95,7 @@
                         { validator: validatePass2, trigger: 'blur' }
                     ],
                     email: [
+                        { validator: checkEmail, trigger: 'blur'},
                         { required: true, message: "Please input email!", trigger: 'blur' }
                     ]
                 }
