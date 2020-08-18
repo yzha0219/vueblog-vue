@@ -4,7 +4,7 @@
             <LoginHeader></LoginHeader>
         </el-header>
         <el-main>
-            <el-form :model="signUpForm" status-icon :rules="rules" ref="signUpForm" label-width="120px" class="demo-ruleForm">
+            <el-form :model="signUpForm" status-icon :rules="rules" ref="signUpForm" label-width="120px" class="signUpForm">
                 <el-form-item label="Username" prop="username">
                     <el-input v-model="signUpForm.username"></el-input>
                 </el-form-item>
@@ -67,7 +67,7 @@
             };
             var checkEmail = (rule, value, callback) => {
               const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
-              if(regEmail.test(this.ruleForm.email)) {
+              if(regEmail.test(this.signUpForm.email)) {
                 callback();
               } else {
                 callback(new Error('The syntax of email is invalid!'));
@@ -103,6 +103,7 @@
         },
         methods: {
             submitForm(formName) {
+                const _this = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let user = {
@@ -142,7 +143,7 @@
         line-height: 320px;
     }
 
-    .demo-ruleForm{
+    .signUpForm{
         max-width: 500px;
         margin: 0 auto;
     }

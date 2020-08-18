@@ -38,8 +38,8 @@
             };
             return {
                 ruleForm: {
-                    password: '111111',
-                    username: 'markerhub'
+                    password: '',
+                    username: ''
                 },
                 rules: {
                     password: [

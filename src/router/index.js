@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import BlogDetail from '../views/BlogDetail.vue'
 import BlogEdit from '../views/BlogEdit.vue'
 import SignUp from "../views/SignUp";
+import UserEdit from "../views/UserEdit";
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,14 @@ const routes = [
     path: '/signup',
     name: 'SignUp',
     component: SignUp
+  },
+  {
+    path: '/user/edit',
+    name: 'UserEdit',
+    meta: {
+      requireAuth: true
+    },
+    component: UserEdit
   }
 ];
 const router = new VueRouter({

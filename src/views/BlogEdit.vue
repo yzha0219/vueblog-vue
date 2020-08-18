@@ -22,7 +22,8 @@
 </template>
 
 <script>
-    import Header from "@/components/Header";
+    import Header from "../components/Header";
+
     export default {
         name: "BlogEdit",
         components: {Header},
@@ -48,7 +49,7 @@
         created() {
             const blogId = this.$route.params.blogId
             const _this = this
-            if(blogId) {
+            if (blogId) {
                 this.$axios.get('/blog/' + blogId).then((res) => {
                     const blog = res.data.data
                     _this.editForm.id = blog.id

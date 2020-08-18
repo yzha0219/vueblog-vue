@@ -12,6 +12,10 @@
           <el-link type="success" href="/blog/add" :disabled="!hasLogin">Post Blog</el-link>
         </span>
             <el-divider direction="vertical"></el-divider>
+            <span>
+                <el-link type="warning" href="/user/edit" :disabled="!hasLogin">Profile Edit</el-link>
+            </span>
+            <el-divider direction="vertical"></el-divider>
             <span v-show="!hasLogin">
           <el-link type="primary" href="/login">Sign in</el-link>
         </span>
@@ -22,8 +26,10 @@
     </div>
 </template>
 <script>
+    import LoginHeader from "./LoginHeader";
     export default {
         name: "Header",
+        components: {LoginHeader},
         data() {
             return {
                 hasLogin: false,
@@ -51,7 +57,7 @@
             }
         },
         created() {
-            if(this.$store.getters.getUser.username) {
+            if (this.$store.getters.getUser.username) {
                 this.user.username = this.$store.getters.getUser.username
                 this.user.avatar = this.$store.getters.getUser.avatar
                 this.hasLogin = true
@@ -66,6 +72,7 @@
         margin: 0 auto;
         text-align: center;
     }
+
     .maction {
         margin: 10px 0;
     }
